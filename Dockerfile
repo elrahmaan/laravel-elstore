@@ -5,7 +5,7 @@ WORKDIR /var/www/html
 RUN apt update
 
 RUN apt update && apt install -y \
-        ibpng-dev \
+        libpng-dev \
         zlib1g-dev \
         libxml2-dev \
         libzip-dev \
@@ -21,7 +21,7 @@ RUN apt update && apt install -y \
     && docker-php-ext-install zip \
     && docker-php-source delete
 
-COPY laravel.conf /etc/apache2/sites-available/
+COPY web.conf /etc/apache2/sites-available/
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
