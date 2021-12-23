@@ -150,7 +150,7 @@ jobs:
             sudo firewall-cmd --zone=docker --add-service=http --permanent
             sudo firewall-cmd --reload
             sudo docker-compose up -d
-            sudo docker exec -i elstore bash -c "chmod -R 777 /var/www/html/storage/ \chown -R www-data:www-data ."
+            sudo docker exec -i elstore bash -c "chmod -R 777 /var/www/html/storage/"
             sudo docker exec -i elstore bash -c '
             if [ ! -f .env ]; then
             cp .env.example .env
