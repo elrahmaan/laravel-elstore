@@ -150,17 +150,18 @@ jobs:
             sudo firewall-cmd --zone=docker --add-service=http --permanent
             sudo firewall-cmd --reload
             sudo docker-compose up -d
-            sudo docker exec -i elstore bash -c "chmod -R 777 /var/www/html/storage/"
+            sudo docker exec -i elstore bash -c "chmod -R 777 /var/www/html/storage"
             sudo docker exec -i elstore bash -c '
             if [ ! -f .env ]; then
             cp .env.example .env
             chmod 777 .env
             mysql -u ${{secrets.DB_USER}} -p${{secrets.DB_PASS}} -h ${{env.MySQL_IP}} -e "CREATE DATABASE IF NOT EXISTS elstore;"
             echo -e "DB_HOST=${{env.MySQL_IP}}\nDB_USERNAME=${{secrets.DB_USERNAME}}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env
-            chmod -R 777 /var/www/html/storage/
+            chmod -R 777 /var/www/html/storage
             composer install
             php artisan key:generate
             php artisan migrate
+            php artisan storage:link
             fi '
             sudo docker exec -i elstore bash -c '
             file=`mysql -u ${{secrets.DB_USER}} -p${{secrets.DB_PASS}} -h ${{env.MySQL_IP}} elstore -e "SELECT COUNT(*) as count FROM users"  | cut -d \t -f 2`
