@@ -165,5 +165,5 @@ jobs:
             sudo docker exec -i elstore bash -c '
             file=`mysql -u ${{secrets.DB_USER}} -p${{secrets.DB_PASS}} -h ${{env.MySQL_IP}} elstore -e "SELECT COUNT(*) as count FROM users"  | cut -d \t -f 2`
             if [ $file == "0" ]; then
-            php artisan db:seed
+            php artisan db:seed --class=UserSeeder
             fi '
